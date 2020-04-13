@@ -6,6 +6,7 @@ public class EnemyMasterLog : MonoBehaviour {
 
     public static GameObject[] enemies;
     public GameObject enemy1;
+    public static EnemyMasterLog instance;
 
     #region Level Multiplier
     public float level1Speed = 1.5f;
@@ -22,8 +23,15 @@ public class EnemyMasterLog : MonoBehaviour {
     #endregion
 
 
+
+
+
     private void Awake()
     {
+        if(instance == null)
+        {
+            instance = new EnemyMasterLog();
+        }
         enemies = new GameObject[1];
         enemies[0] = enemy1;
         
@@ -31,7 +39,8 @@ public class EnemyMasterLog : MonoBehaviour {
 
     public static GameObject getEnemy(int enemyNumber, int enemyLevel)
     {
-        if((enemyNumber-1 <= enemies.Length) && (enemyLevel <= levelCount))
+        //Still need to implement code to include enemy level8
+        if((enemyNumber-1 <= enemies.Length) && (enemyLevel <= instance.levelCount))
         {
             return enemies[enemyNumber - 1];
         }

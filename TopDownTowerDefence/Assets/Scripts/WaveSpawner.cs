@@ -6,42 +6,50 @@ public class WaveSpawner : MonoBehaviour {
     #region Veriables
     #region Public Veriables
     public Transform enemyPrefab;
-        public float spawnInter = 5f;
+    public float spawnInter = 5f;
+    public Transform spawnPoint1;
         #endregion
     #region private veriables
-        private float waveCount = 1f;
-        private float countdown = 2f;
-        #endregion
+    private int waveCount = 0;
+    private float countdown = 2f;
     #endregion
+    #endregion
+
+    private void Awake()
+    {
+        spawnPoint1 = this.gameObject.transform;
+    }
     private void Update()
     {
         countdown -= Time.deltaTime;
 
         if(countdown <= 0)
         {
-            spawnWave();
+            StartCoroutine(spawnWave());
             countdown = spawnInter;
         }
     }
 
-    void spawnWave()
+    IEnumerator spawnWave()
     {
-        for (int i = 0; i < waveCount; i++)
-        {
-            
-        }
-
         waveCount++;
+        //Eventually write this code to import all enemy types to be used into like temp veriables so that MonsterLog isnt being called every spawn
+        for (int i = 0; i <= waveCount; i++)
+        {
+            spawnEnemy(1, 1, spawnPoint1);
+            yield return new WaitForSeconds(0.5f);
+        }
     }
 
-    void spwanEnemy(int enemyType, int enemyLevel, Transform spawnLocation)
+    void spawnEnemy(int enemyType, int enemyLevel, Transform spawnLocation)
     {
-
-        Instantiate()
+        GameObject temp = getEnemy(enemyType, enemyLevel);
+        Instantiate(temp, spawnLocation.position, spawnLocation.rotation);
     }
 
-    void getEnemy(int enemyType, int EnemyLevel)
+    private GameObject getEnemy(int enemyType, int EnemyLevel)
     {
-        
+        //Still need to unlcude math for enemy level
+        return EnemyMasterLog.getEnemy(enemyType, EnemyLevel);
     }
 }
