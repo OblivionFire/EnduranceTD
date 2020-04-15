@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WaveSpawner : MonoBehaviour {
     #region Veriables
@@ -8,6 +9,7 @@ public class WaveSpawner : MonoBehaviour {
     public Transform enemyPrefab;
     public float spawnInter = 5f;
     public Transform spawnPoint1;
+    public Text WaveCountDownText;
         #endregion
     #region private veriables
     private int waveCount = 0;
@@ -23,7 +25,9 @@ public class WaveSpawner : MonoBehaviour {
     {
         countdown -= Time.deltaTime;
 
-        if(countdown <= 0)
+        WaveCountDownText.text = (Mathf.Floor(countdown)+1).ToString();
+
+        if(countdown <= .05)
         {
             StartCoroutine(spawnWave());
             countdown = spawnInter;
